@@ -298,11 +298,94 @@
             .pagination {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 4px;
+                margin: 0;
             }
 
-            .page-link {
-                padding: 0.35rem 0.6rem;
-                font-size: 0.8rem;
+            .pagination .page-item {
+                margin: 0;
+            }
+
+            .pagination .page-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+                border: 1px solid #e2e8f0;
+                color: #64748b;
+                background: white;
+                transition: all 0.2s;
+            }
+
+            .pagination .page-link:hover {
+                background: #f1f5f9;
+                border-color: #cbd5e1;
+                color: var(--primary-color);
+            }
+
+            .pagination .page-item.active .page-link {
+                background: var(--primary-color);
+                border-color: var(--primary-color);
+                color: white;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                background: #f8fafc;
+                color: #cbd5e1;
+                cursor: not-allowed;
+            }
+
+            /* Simple pagination (Previous/Next links) */
+            nav[role="navigation"] {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.5rem;
+            }
+
+            nav[role="navigation"] > div {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            nav[role="navigation"] a,
+            nav[role="navigation"] span:not(.relative) {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+                border: 1px solid #e2e8f0;
+                color: #64748b;
+                background: white;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+
+            nav[role="navigation"] a:hover {
+                background: #f1f5f9;
+                border-color: #cbd5e1;
+                color: var(--primary-color);
+            }
+
+            nav[role="navigation"] span[aria-current="page"] span,
+            nav[role="navigation"] .bg-blue-50 {
+                background: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+                color: white !important;
+            }
+
+            nav[role="navigation"] p {
+                font-size: 0.85rem;
+                color: #64748b;
+                margin: 0;
+            }
+
+            @media (max-width: 640px) {
+                nav[role="navigation"] {
+                    flex-direction: column;
+                    text-align: center;
+                }
             }
 
             .row.g-4 {
@@ -543,6 +626,150 @@
     <!-- Scripts -->
     @include('partials.footer')
     @stack('scripts')
+
+    <!-- Biometric Registration Modal -->
+    @auth
+    <div class="modal fade" id="biometricOfferModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4" style="overflow: hidden;">
+                <div class="modal-body text-center p-4">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="fas fa-fingerprint text-white" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Aktifkan Login Biometrik</h5>
+                    <p class="text-muted mb-4">Login lebih cepat dan aman menggunakan sidik jari atau Face ID di perangkat ini.</p>
+                    <button type="button" class="btn btn-success w-100 py-3 fw-bold rounded-3 mb-3" onclick="registerBiometric()">
+                        <i class="fas fa-fingerprint me-2"></i> Ya, Aktifkan Sekarang
+                    </button>
+                    <button type="button" class="btn btn-light w-100 py-2 rounded-3" data-bs-dismiss="modal">
+                        Nanti Saja
+                    </button>
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="dontRemindAgain">
+                        <label class="form-check-label text-muted small" for="dontRemindAgain">
+                            Jangan ingatkan lagi
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // WebAuthn Registration Script
+    document.addEventListener('DOMContentLoaded', async function() {
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (!isMobile) return;
+        
+        // Check WebAuthn support
+        if (!window.PublicKeyCredential) return;
+        
+        try {
+            const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+            if (!available) return;
+            
+            // Check if user needs to see the offer
+            const res = await fetch('/api/webauthn/check-support');
+            const data = await res.json();
+            
+            if (!data.has_credential && !data.reminder_dismissed) {
+                // Show offer modal after short delay
+                setTimeout(() => {
+                    new bootstrap.Modal(document.getElementById('biometricOfferModal')).show();
+                }, 1000);
+            }
+        } catch (e) {
+            console.log('Error checking biometric:', e);
+        }
+    });
+
+    // Handle modal dismiss
+    document.getElementById('biometricOfferModal')?.addEventListener('hidden.bs.modal', async function() {
+        if (document.getElementById('dontRemindAgain').checked) {
+            await fetch('/api/webauthn/dismiss-reminder', { 
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
+            });
+        }
+    });
+
+    async function registerBiometric() {
+        try {
+            // Get registration options
+            const optRes = await fetch('/api/webauthn/register/options', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content 
+                }
+            });
+            const optData = await optRes.json();
+            
+            if (optData.status !== 'success') {
+                alert('Gagal mendapatkan opsi registrasi');
+                return;
+            }
+
+            const publicKey = optData.publicKey;
+            publicKey.challenge = base64UrlDecode(publicKey.challenge);
+            publicKey.user.id = base64UrlDecode(publicKey.user.id);
+
+            // Create credential
+            const credential = await navigator.credentials.create({ publicKey });
+
+            // Send to server
+            const verifyRes = await fetch('/api/webauthn/register/verify', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content 
+                },
+                body: JSON.stringify({
+                    id: credential.id,
+                    response: {
+                        clientDataJSON: base64UrlEncode(new Uint8Array(credential.response.clientDataJSON)),
+                        attestationObject: base64UrlEncode(new Uint8Array(credential.response.attestationObject))
+                    }
+                })
+            });
+
+            const verifyData = await verifyRes.json();
+            bootstrap.Modal.getInstance(document.getElementById('biometricOfferModal')).hide();
+            
+            if (verifyData.status === 'success') {
+                alert('Biometrik berhasil didaftarkan! Selanjutnya Anda bisa login dengan sidik jari.');
+            } else {
+                alert(verifyData.message || 'Gagal mendaftarkan biometrik');
+            }
+        } catch (e) {
+            console.error('Register biometric error:', e);
+            if (e.name !== 'NotAllowedError') {
+                alert('Gagal mendaftarkan: ' + e.message);
+            }
+        }
+    }
+
+    function base64UrlEncode(buffer) {
+        let str = '';
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.length; i++) {
+            str += String.fromCharCode(bytes[i]);
+        }
+        return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    }
+
+    function base64UrlDecode(str) {
+        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (str.length % 4) str += '=';
+        const binStr = atob(str);
+        const bytes = new Uint8Array(binStr.length);
+        for (let i = 0; i < binStr.length; i++) {
+            bytes[i] = binStr.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+    </script>
+    @endauth
 </body>
 
 </html>

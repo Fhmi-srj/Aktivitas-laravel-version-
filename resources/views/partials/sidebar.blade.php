@@ -246,12 +246,13 @@
                     {{ $role === 'kesehatan' ? 'Laporan Kesehatan' : 'Aktivitas Santri' }}
                 </a>
             </li>
-            <!-- PRINT IZIN -->
+            {{-- PRINT IZIN - DISABLED
             <li>
                 <a href="{{ route('print-izin') }}" class="{{ $currentRoute === 'print-izin' ? 'active' : '' }}">
                     <i class="fas fa-print"></i> Print Izin
                 </a>
             </li>
+            --}}
 
             @if($role === 'admin')
                 <div class="sidebar-divider"></div>
@@ -399,11 +400,13 @@
                     {{ $role === 'kesehatan' ? 'Laporan Kesehatan' : 'Aktivitas Santri' }}
                 </a>
             </li>
+            {{-- PRINT IZIN - DISABLED
             <li>
                 <a href="{{ route('print-izin') }}" class="{{ $currentRoute === 'print-izin' ? 'active' : '' }}">
                     <i class="fas fa-print"></i> Print Izin
                 </a>
             </li>
+            --}}
 
             @if($role === 'admin')
                 <div class="sidebar-divider-mobile"></div>

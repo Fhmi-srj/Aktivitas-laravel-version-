@@ -149,16 +149,12 @@ class AktivitasApiController extends Controller
             case 'izin_keluar':
                 if (empty($request->judul))
                     $missingFields[] = 'Keperluan';
-                if (empty($request->keterangan))
-                    $missingFields[] = 'Keterangan';
                 if (empty($request->batas_waktu))
                     $missingFields[] = 'Batas Waktu';
                 break;
             case 'izin_pulang':
                 if (empty($request->judul))
                     $missingFields[] = 'Alasan';
-                if (empty($request->keterangan))
-                    $missingFields[] = 'Keterangan';
                 if (empty($request->batas_waktu))
                     $missingFields[] = 'Batas Waktu';
                 break;
@@ -171,8 +167,6 @@ class AktivitasApiController extends Controller
             case 'pelanggaran':
                 if (empty($request->judul))
                     $missingFields[] = 'Jenis Pelanggaran';
-                if (empty($request->keterangan))
-                    $missingFields[] = 'Keterangan Pelanggaran';
                 break;
             case 'paket':
                 if (empty($request->judul))
@@ -198,11 +192,20 @@ class AktivitasApiController extends Controller
             $foto1 = null;
             $foto2 = null;
 
-            if ($request->hasFile('foto_dokumen_1')) {
+            // Debug: Log incoming files
+            \Log::info('File upload check', [
+                'has_foto_1' => $request->hasFile('foto_dokumen_1'),
+                'has_foto_2' => $request->hasFile('foto_dokumen_2'),
+                'all_files' => $request->allFiles(),
+            ]);
+
+            if ($request->hasFile('foto_dokumen_1') && $request->file('foto_dokumen_1')->isValid()) {
                 $foto1 = $this->uploadFile($request->file('foto_dokumen_1'));
+                \Log::info('Foto 1 uploaded', ['path' => $foto1]);
             }
-            if ($request->hasFile('foto_dokumen_2')) {
+            if ($request->hasFile('foto_dokumen_2') && $request->file('foto_dokumen_2')->isValid()) {
                 $foto2 = $this->uploadFile($request->file('foto_dokumen_2'));
+                \Log::info('Foto 2 uploaded', ['path' => $foto2]);
             }
 
             // Create aktivitas
@@ -380,14 +383,6 @@ class AktivitasApiController extends Controller
     public function bulkDestroy(Request $request)
     {
         $user = auth()->user();
-
-        // Only admin can bulk delete
-        if ($user->role !== 'admin') {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized: Only admin can delete'
-            ], 403);
-        }
 
         $ids = $request->input('ids', []);
 

@@ -381,13 +381,15 @@
 
         .photo-preview-container {
             position: relative;
-            display: inline-block;
+            display: block;
             margin-top: 15px;
+            text-align: center;
         }
 
         .photo-preview-container img {
-            max-width: 100%;
-            max-height: 180px;
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
             border-radius: 10px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
@@ -408,6 +410,7 @@
             justify-content: center;
             font-size: 0.75rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
         }
 
         .btn-remove-photo:hover {
@@ -424,11 +427,16 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .photo-preview-container img {
+                max-height: 250px;
+            }
         }
 
         .foto-preview {
-            max-width: 100%;
-            max-height: 150px;
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
             border-radius: 8px;
             margin-top: 10px;
             border: 1px solid #e2e8f0;
@@ -498,7 +506,7 @@
                 <div class="card-body p-4">
                     <!-- PENCARIAN -->
                     <div class="mb-4 position-relative">
-                        <div class="section-title">Pilih Siswa</div>
+                        <div class="section-title">Pilih Santri</div>
                         <div class="search-wrapper">
                             <input type="text" id="input_cari" class="search-input" placeholder="Cari nama atau NIS..."
                                 autocomplete="off">
@@ -735,35 +743,31 @@
                                     rows="3" placeholder="Tambahkan detail..."></textarea>
                             </div>
                             <div class="col-12" id="group_foto">
-                                <div class="row g-3">
-                                    <div class="col-md-6" id="col_foto_1">
-                                        <label class="form-label-custom" id="lbl_foto_1">FOTO BUKTI <span
-                                                class="text-muted fw-normal">(Opsional)</span></label>
-                                        <div class="photo-upload-wrapper" id="wrapper_foto_1">
-                                            <input type="file" name="foto_dokumen_1" id="input_foto_1" class="d-none"
-                                                accept="image/*"
-                                                onchange="handlePhotoSelect(this, 'preview_foto_1', 'wrapper_foto_1')">
-                                            <input type="file" id="camera_foto_1" class="d-none" accept="image/*"
-                                                capture="environment"
-                                                onchange="handlePhotoSelect(this, 'preview_foto_1', 'wrapper_foto_1', 'input_foto_1')">
-                                            <div class="photo-upload-buttons" id="buttons_foto_1">
-                                                <button type="button" class="btn-photo-upload btn-camera"
-                                                    onclick="document.getElementById('camera_foto_1').click()">
-                                                    <i class="fas fa-camera"></i> Ambil Foto
-                                                </button>
-                                                <button type="button" class="btn-photo-upload btn-file"
-                                                    onclick="document.getElementById('input_foto_1').click()">
-                                                    <i class="fas fa-folder-open"></i> Pilih File
-                                                </button>
-                                            </div>
-                                            <div class="photo-preview-container d-none" id="container_foto_1">
-                                                <img id="preview_foto_1" alt="Preview">
-                                                <button type="button" class="btn-remove-photo"
-                                                    onclick="removePhoto('input_foto_1', 'preview_foto_1', 'wrapper_foto_1', 'container_foto_1', 'buttons_foto_1')">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                                <label class="form-label-custom" id="lbl_foto_1">FOTO BUKTI <span
+                                        class="text-muted fw-normal">(Opsional)</span></label>
+                                <div class="photo-upload-wrapper" id="wrapper_foto_1">
+                                    <input type="file" name="foto_dokumen_1" id="input_foto_1" class="d-none"
+                                        accept="image/*"
+                                        onchange="handlePhotoSelect(this, 'preview_foto_1', 'wrapper_foto_1')">
+                                    <input type="file" id="camera_foto_1" class="d-none" accept="image/*"
+                                        capture="environment"
+                                        onchange="handlePhotoSelect(this, 'preview_foto_1', 'wrapper_foto_1', 'input_foto_1')">
+                                    <div class="photo-upload-buttons" id="buttons_foto_1">
+                                        <button type="button" class="btn-photo-upload btn-camera"
+                                            onclick="document.getElementById('camera_foto_1').click()">
+                                            <i class="fas fa-camera"></i> Ambil Foto
+                                        </button>
+                                        <button type="button" class="btn-photo-upload btn-file"
+                                            onclick="document.getElementById('input_foto_1').click()">
+                                            <i class="fas fa-folder-open"></i> Pilih File
+                                        </button>
+                                    </div>
+                                    <div class="photo-preview-container d-none" id="container_foto_1">
+                                        <img id="preview_foto_1" alt="Preview">
+                                        <button type="button" class="btn-remove-photo"
+                                            onclick="removePhoto('input_foto_1', 'preview_foto_1', 'wrapper_foto_1', 'container_foto_1', 'buttons_foto_1')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -816,33 +820,7 @@
         </div>
     </div>
 
-    <!-- MODAL KIRIM WA SINGLE -->
-    <div class="modal fade" id="modalSendWa" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-3">
-                <div class="modal-header text-white border-0" style="background-color: #10b981;">
-                    <h6 class="modal-title fw-bold"><i class="fab fa-whatsapp me-2"></i>KIRIM WA KE WALI</h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <input type="hidden" id="single_wa_phone">
-                    <input type="hidden" id="single_wa_image">
-                    <div class="mb-3">
-                        <label class="form-label-custom">NOMOR TUJUAN</label>
-                        <div id="single_wa_phone_display" class="fw-bold text-success"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label-custom">ISI PESAN</label>
-                        <textarea id="single_wa_message" class="form-control form-control-custom w-100" rows="8"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer border-0 bg-light">
-                    <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-success px-4 fw-bold shadow-sm" id="btn_send_single_wa"><i class="fas fa-paper-plane me-1"></i> KIRIM SEKARANG</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- MODAL REPORT PREVIEW -->
     <div class="modal fade" id="modalReport" tabindex="-1">
@@ -989,12 +967,8 @@
             let siswaName = (row.nama_lengkap || '').replace(/'/g, "");
             let btnEdit = `<button class="btn btn-sm btn-outline-warning btn-edit me-1" data-id="${id}" title="Edit"><i class="fas fa-pencil-alt"></i></button>`;
             let btnWa = `<button class="btn btn-sm btn-outline-success btn-wa-single me-1" data-id="${id}" title="Kirim WA ke Wali"><i class="fab fa-whatsapp"></i></button>`;
-
-            if (isAdmin) {
-                let btnDelete = `<button class="btn btn-sm btn-outline-danger btn-delete-single" data-id="${id}" data-name="${siswaName}" title="Hapus"><i class="fas fa-trash-alt"></i></button>`;
-                return `<div class="d-flex">${btnEdit} ${btnWa} ${btnDelete}</div>`;
-            }
-            return `<div class="d-flex">${btnEdit} ${btnWa}</div>`;
+            let btnDelete = `<button class="btn btn-sm btn-outline-danger btn-delete-single" data-id="${id}" data-name="${siswaName}" title="Hapus"><i class="fas fa-trash-alt"></i></button>`;
+            return `<div class="d-flex">${btnEdit} ${btnWa} ${btnDelete}</div>`;
         }
 
         // Initialize DataTable
@@ -1179,12 +1153,20 @@
         // Modal Input
         window.bukaModal = function (cat, editData = null) {
             if (!editData && !$('#selected_siswa_id').val()) {
-                Swal.fire('Pilih Siswa', 'Silakan pilih siswa dulu untuk input data.', 'info');
+                Swal.fire('Pilih Santri', 'Silakan pilih santri dulu untuk input data.', 'info');
                 return;
             }
 
             $('#formAktivitas')[0].reset();
+            $('#modal_log_id').val(''); // Clear log_id for new input
             $('#group_sambangan, #group_tanggal_selesai, #group_status_sakit, #group_batas_waktu, #group_status_paket').addClass('d-none');
+            
+            // Reset photo preview when opening modal (only for new input, not edit)
+            if (!editData) {
+                if (typeof resetAllPhotoPreview === 'function') {
+                    resetAllPhotoPreview();
+                }
+            }
 
             let title = "INPUT DATA", lbl = "JUDUL";
             if (cat == 'sakit') {
@@ -1203,31 +1185,51 @@
             }
             else if (cat == 'izin_pulang') {
                 title = "IZIN PULANG"; lbl = "ALASAN";
+                $('#lbl_tanggal_mulai').text('TANGGAL PERGI');
                 $('#group_batas_waktu').removeClass('d-none');
                 $('#group_tanggal_selesai').removeClass('d-none');
-                $('#lbl_tanggal_selesai').text('TGL KEMBALI');
+                $('#lbl_tanggal_selesai').text('TANGGAL KEMBALI');
             }
             else if (cat == 'sambangan') {
                 title = "SAMBANGAN"; lbl = "NAMA PENJENGUK";
+                $('#lbl_tanggal_mulai').text('TANGGAL SAMBANGAN');
                 $('#group_sambangan').removeClass('d-none');
             }
             else if (cat == 'paket') {
                 title = "PAKET"; lbl = "ISI PAKET";
+                $('#lbl_tanggal_mulai').text('TANGGAL DIBERI');
                 $('#group_status_paket').removeClass('d-none');
-                $('#group_tanggal_selesai').removeClass('d-none');
-                $('#lbl_tanggal_selesai').text('TGL TERIMA');
+                $('#lbl_tanggal_selesai').text('TANGGAL DITERIMA');
+                
+                if (editData) {
+                    // Edit mode - show tanggal diterima if status is sudah diterima or allow change
+                    $('#group_tanggal_selesai').removeClass('d-none');
+                    $('#select_status_paket').prop('disabled', false);
+                } else {
+                    // Create mode - hide tanggal diterima, lock status to Belum Diterima
+                    $('#group_tanggal_selesai').addClass('d-none');
+                    $('#select_status_paket').val('Belum Diterima').prop('disabled', true);
+                }
             }
             else if (cat == 'pelanggaran') {
                 title = "PELANGGARAN"; lbl = "JENIS PELANGGARAN";
+                $('#lbl_tanggal_mulai').text('TANGGAL MELANGGAR');
             }
             else if (cat == 'hafalan') {
                 title = "HAFALAN"; lbl = "NAMA KITAB/SURAT";
+                $('#lbl_tanggal_mulai').text('TANGGAL SETORAN');
             }
 
             $('#modalTitle').text(editData ? `EDIT DATA ${title}` : title);
             $('#lbl_judul').text(lbl);
             $('#modal_kategori').val(cat);
-            $('#modal_siswa_id').val($('#selected_siswa_id').val());
+            
+            // Set siswa_id: from editData when editing, from card when creating
+            if (editData && editData.siswa_id) {
+                $('#modal_siswa_id').val(editData.siswa_id);
+            } else {
+                $('#modal_siswa_id').val($('#selected_siswa_id').val());
+            }
 
             // Set current datetime as default
             let now = new Date();
@@ -1242,15 +1244,44 @@
             e.preventDefault();
 
             let formData = new FormData(this);
+            let logId = $('#modal_log_id').val();
+            let kategori = $('#modal_kategori').val();
+            
+            // Special validation for paket when changing to "Sudah Diterima"
+            if (kategori === 'paket') {
+                let statusPaket = $('#select_status_paket').val();
+                let tanggalDiterima = $('#input_tanggal_selesai').val();
+                let hasNewPhoto = $('#input_foto_1')[0].files.length > 0;
+                
+                if (statusPaket === 'Sudah Diterima') {
+                    if (!tanggalDiterima) {
+                        Swal.fire('Validasi', 'Tanggal diterima wajib diisi jika status Sudah Diterima', 'warning');
+                        return;
+                    }
+                    if (logId && !hasNewPhoto) {
+                        Swal.fire('Validasi', 'Wajib upload foto baru sebagai bukti penerimaan paket', 'warning');
+                        return;
+                    }
+                }
+            }
+            
+            // Determine if this is create or update
+            let url = "{{ route('api.aktivitas.store') }}";
+            let isEdit = false;
+            
+            if (logId && logId !== '') {
+                url = `/api/aktivitas/${logId}/update`;
+                isEdit = true;
+            }
 
             Swal.fire({
-                title: 'Menyimpan...',
+                title: isEdit ? 'Mengupdate...' : 'Menyimpan...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
 
             $.ajax({
-                url: "{{ route('api.aktivitas.store') }}",
+                url: url,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -1275,23 +1306,83 @@
             });
         });
 
-        // Photo handling
+        // Handle paket status change - toggle tanggal diterima visibility
+        $('#select_status_paket').on('change', function() {
+            let status = $(this).val();
+            if (status === 'Sudah Diterima') {
+                $('#group_tanggal_selesai').removeClass('d-none');
+            } else {
+                $('#group_tanggal_selesai').addClass('d-none');
+                $('#input_tanggal_selesai').val('');
+            }
+        });
+
+        // Photo handling - with compression
+        function compressImage(file, maxWidth = 1200, quality = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        // Calculate new dimensions
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to blob
+                        canvas.toBlob(function(blob) {
+                            // Create new file from blob
+                            const compressedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            resolve(compressedFile);
+                        }, 'image/jpeg', quality);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         function handlePhotoSelect(input, previewId, wrapperId, targetInputId = null) {
             if (input.files && input.files[0]) {
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#' + previewId).attr('src', e.target.result);
-                    $('#container_' + previewId.replace('preview_', '')).removeClass('d-none');
-                    $('#buttons_' + previewId.replace('preview_', '')).addClass('d-none');
-                    $('#' + wrapperId).addClass('has-preview');
+                const originalFile = input.files[0];
+                
+                // Compress image before setting
+                compressImage(originalFile).then(compressedFile => {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#' + previewId).attr('src', e.target.result);
+                        $('#container_' + previewId.replace('preview_', '')).removeClass('d-none');
+                        $('#buttons_' + previewId.replace('preview_', '')).addClass('d-none');
+                        $('#' + wrapperId).addClass('has-preview');
 
-                    if (targetInputId) {
+                        // Set compressed file to the actual input
                         let dt = new DataTransfer();
-                        dt.items.add(input.files[0]);
-                        document.getElementById(targetInputId).files = dt.files;
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
+                        dt.items.add(compressedFile);
+                        
+                        if (targetInputId) {
+                            document.getElementById(targetInputId).files = dt.files;
+                        } else {
+                            input.files = dt.files;
+                        }
+                        
+                        console.log('Image compressed:', originalFile.size, '->', compressedFile.size);
+                    };
+                    reader.readAsDataURL(compressedFile);
+                });
             }
         }
 
@@ -1302,6 +1393,44 @@
             $('#' + buttonsId).removeClass('d-none');
             $('#' + wrapperId).removeClass('has-preview');
         }
+
+        // Reset all photo previews
+        function resetAllPhotoPreview() {
+            // Reset foto input values
+            document.getElementById('input_foto_1').value = '';
+            if (document.getElementById('camera_foto_1')) {
+                document.getElementById('camera_foto_1').value = '';
+            }
+            
+            // Reset preview image src
+            let previewImg = document.getElementById('preview_foto_1');
+            if (previewImg) {
+                previewImg.src = '';
+                previewImg.removeAttribute('src');
+            }
+            
+            // Hide preview container, show buttons
+            let container = document.getElementById('container_foto_1');
+            if (container) {
+                container.classList.add('d-none');
+            }
+            
+            let buttons = document.getElementById('buttons_foto_1');
+            if (buttons) {
+                buttons.classList.remove('d-none');
+            }
+            
+            // Remove has-preview class from wrapper
+            let wrapper = document.getElementById('wrapper_foto_1');
+            if (wrapper) {
+                wrapper.classList.remove('has-preview');
+            }
+        }
+
+        // Reset photo when modal is closed
+        document.getElementById('modalInput').addEventListener('hidden.bs.modal', function () {
+            resetAllPhotoPreview();
+        });
 
         // Delete single
         $(document).on('click', '.btn-delete-single', function () {
@@ -1317,15 +1446,35 @@
                 cancelButtonText: 'Batal'
             }).then((r) => {
                 if (r.isConfirmed) {
+                    Swal.fire({
+                        title: 'Menghapus...',
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading()
+                    });
+                    
+                    // Use bulk-delete endpoint with id as array (same as PHP native)
                     $.ajax({
-                        url: `/api/aktivitas/${id}`,
-                        type: 'DELETE',
-                        success: function () {
-                            refreshTable();
-                            Swal.fire('Sukses', 'Data berhasil dihapus', 'success');
+                        url: `/api/aktivitas/bulk-delete`,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            ids: [id]
                         },
-                        error: function () {
-                            Swal.fire('Error', 'Gagal menghapus data', 'error');
+                        success: function (res) {
+                            if (res.status === 'success') {
+                                refreshTable();
+                                Swal.fire('Sukses', res.message || 'Data berhasil dihapus', 'success');
+                            } else {
+                                Swal.fire('Error', res.message || 'Gagal menghapus data', 'error');
+                            }
+                        },
+                        error: function (xhr) {
+                            let msg = 'Gagal menghapus data';
+                            try {
+                                let res = JSON.parse(xhr.responseText);
+                                if (res.message) msg = res.message;
+                            } catch (e) { }
+                            Swal.fire('Error', msg, 'error');
                         }
                     });
                 }
@@ -1421,73 +1570,6 @@
             });
         });
 
-        // Bulk WA
-        $('#btn-bulk-wa').click(function () {
-            let dataList = [];
-            $('.row-checkbox:checked').each(function () {
-                let rowData = table.row($(this).closest('tr')).data();
-                if (rowData && rowData.no_wa_wali && rowData.no_wa_wali !== '-') {
-                    dataList.push(rowData);
-                }
-            });
-
-            if (dataList.length === 0) {
-                Swal.fire('Perhatian', 'Tidak ada nomor wali yang tersedia', 'warning');
-                return;
-            }
-
-            Swal.fire({
-                title: 'Kirim WA Massal?',
-                html: `Kirim pemberitahuan ke <b>${dataList.length}</b> wali santri`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#25D366',
-                confirmButtonText: '<i class="fab fa-whatsapp"></i> Kirim Semua',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Mengirim Pesan...',
-                        html: `Mengirim ke <b>0</b> dari <b>${dataList.length}</b> wali`,
-                        allowOutsideClick: false,
-                        didOpen: () => { Swal.showLoading(); }
-                    });
-
-                    let sent = 0, failed = 0;
-                    let promises = dataList.map((item, idx) => {
-                        return new Promise((resolve) => {
-                            setTimeout(() => {
-                                let message = generatePersonalMessage(item);
-                                $.post("{{ route('api.kirim-wa') }}", {
-                                    phone: item.no_wa_wali,
-                                    message: message,
-                                    image: item.kategori === 'paket' ? item.foto_dokumen_1 : null
-                                }).done(function (res) {
-                                    if (res.status === 'success') sent++;
-                                    else failed++;
-                                }).fail(function () {
-                                    failed++;
-                                }).always(function () {
-                                    Swal.update({
-                                        html: `Mengirim ke <b>${sent + failed}</b> dari <b>${dataList.length}</b> wali`
-                                    });
-                                    resolve();
-                                });
-                            }, idx * 500);
-                        });
-                    });
-
-                    Promise.all(promises).then(() => {
-                        Swal.fire({
-                            icon: failed === 0 ? 'success' : 'warning',
-                            title: 'Selesai!',
-                            html: `Berhasil mengirim ke <b>${sent}</b> wali` + (failed > 0 ? `<br>Gagal: <b>${failed}</b>` : ''),
-                            confirmButtonText: 'OK'
-                        });
-                    });
-                }
-            });
-        });
 
         // Generate personal message for WA
         function generatePersonalMessage(item) {
@@ -1548,10 +1630,7 @@
                 if (res.status === 'success') {
                     let data = res.data;
 
-                    // Set siswa info
-                    pilihSiswa(data.siswa_id, data.nama_lengkap, '-', data.kelas, '-', '-');
-
-                    // Open modal with edit data
+                    // Open modal with edit data (don't change the pilih santri card)
                     bukaModal(data.kategori, data);
 
                     // Fill form fields
@@ -1564,6 +1643,42 @@
                     $('#select_status_sambangan').val(data.status_sambangan);
                     $('#select_status_kegiatan').val(data.status_kegiatan);
                     $('#select_status_paket').val(data.status_kegiatan);
+                    
+                    // Show existing photo preview if available (with delay to ensure modal is ready)
+                    // For non-paket categories: show photo preview with option to replace
+                    if (data.foto_dokumen_1 && data.kategori !== 'paket') {
+                        setTimeout(function() {
+                            let photoUrl = '/storage/' + data.foto_dokumen_1;
+                            let previewEl = document.getElementById('preview_foto_1');
+                            let containerEl = document.getElementById('container_foto_1');
+                            let buttonsEl = document.getElementById('buttons_foto_1');
+                            let wrapperEl = document.getElementById('wrapper_foto_1');
+                            
+                            if (previewEl && containerEl && buttonsEl && wrapperEl) {
+                                previewEl.src = photoUrl;
+                                containerEl.classList.remove('d-none');
+                                // Show BOTH preview and upload buttons for replacement
+                                buttonsEl.classList.remove('d-none');
+                                wrapperEl.classList.add('has-preview');
+                            }
+                        }, 300);
+                    } else if (data.foto_dokumen_1 && data.kategori === 'paket') {
+                        // For paket: show photo preview, hide upload buttons (different validation)
+                        setTimeout(function() {
+                            let photoUrl = '/storage/' + data.foto_dokumen_1;
+                            let previewEl = document.getElementById('preview_foto_1');
+                            let containerEl = document.getElementById('container_foto_1');
+                            let buttonsEl = document.getElementById('buttons_foto_1');
+                            let wrapperEl = document.getElementById('wrapper_foto_1');
+                            
+                            if (previewEl && containerEl && buttonsEl && wrapperEl) {
+                                previewEl.src = photoUrl;
+                                containerEl.classList.remove('d-none');
+                                buttonsEl.classList.remove('d-none'); // Show buttons to upload new photo
+                                wrapperEl.classList.add('has-preview');
+                            }
+                        }, 300);
+                    }
                 } else {
                     Swal.fire('Error', res.message, 'error');
                 }
@@ -1572,58 +1687,6 @@
             });
         });
 
-        // ========================
-        // WA SINGLE WITH MODAL
-        // ========================
-        let currentWaRowData = null;
-        $(document).on('click', '.btn-wa-single', function () {
-            let btn = $(this);
-            currentWaRowData = table.row(btn.closest('tr')).data();
-
-            if (!currentWaRowData) {
-                Swal.fire('Error', 'Data tidak ditemukan', 'error');
-                return;
-            }
-
-            if (!currentWaRowData.no_wa_wali || currentWaRowData.no_wa_wali === '-') {
-                Swal.fire('Perhatian', 'Nomor WA wali tidak tersedia', 'warning');
-                return;
-            }
-
-            // Populate modal
-            $('#single_wa_phone').val(currentWaRowData.no_wa_wali);
-            $('#single_wa_phone_display').text(currentWaRowData.no_wa_wali);
-            $('#single_wa_image').val(currentWaRowData.kategori === 'paket' ? currentWaRowData.foto_dokumen_1 : '');
-            $('#single_wa_message').val(generatePersonalMessage(currentWaRowData));
-
-            new bootstrap.Modal(document.getElementById('modalSendWa')).show();
-        });
-
-        $('#btn_send_single_wa').click(function () {
-            let phone = $('#single_wa_phone').val();
-            let message = $('#single_wa_message').val();
-            let image = $('#single_wa_image').val();
-
-            if (!phone || !message) return;
-
-            bootstrap.Modal.getInstance(document.getElementById('modalSendWa')).hide();
-
-            Swal.fire({
-                title: 'Mengirim...',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
-            $.post("{{ route('api.kirim-wa') }}", { phone: phone, message: message, image: image || null })
-                .done(function (res) {
-                    if (res.status === 'success') {
-                        Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Pesan berhasil dikirim', timer: 2000, showConfirmButton: false });
-                    } else {
-                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan', 'error');
-                    }
-                })
-                .fail(function () { Swal.fire('Error', 'Gagal mengirim pesan', 'error'); });
-        });
 
         // ========================
         // BULK WA WITH MODAL
@@ -1755,27 +1818,62 @@
         });
 
         function generateReportText(kategori, items) {
-            let greeting = getGreeting();
+            let categoryName = getCategoryName(kategori);
+            let today = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             let lines = [];
-            lines.push(`${greeting},`);
+            
+            lines.push(`LAPORAN SANTRI ${categoryName.toUpperCase()}`);
+            lines.push(`Tanggal: ${today}`);
             lines.push('');
-            lines.push(`Berikut laporan ${kategori.replace('_', ' ').toUpperCase()} tanggal ${new Date().toLocaleDateString('id-ID')}:`);
+            lines.push(`Terdapat ${items.length} santri ${categoryName.toLowerCase()}:`);
             lines.push('');
 
             items.forEach((item, idx) => {
-                lines.push(`${idx + 1}. ${item.nama_lengkap} (${item.kelas || '-'})`);
-                lines.push(`   Tanggal: ${formatDateTimeWA(item.tanggal)}`);
-                if (item.judul) lines.push(`   ${getJudulLabel(kategori)}: ${item.judul}`);
-                if (item.keterangan) lines.push(`   Ket: ${item.keterangan}`);
-                lines.push('');
+                lines.push(`${idx + 1}. *${item.nama_lengkap.toUpperCase()}*`);
+                
+                // Date range
+                let dateStart = formatDateOnly(item.tanggal);
+                let dateEnd = item.tanggal_selesai ? formatDateOnly(item.tanggal_selesai) : null;
+                let dateRange = dateStart;
+                if (kategori === 'sakit') {
+                    dateRange += dateEnd ? ` - ${dateEnd}` : ' - (belum sembuh)';
+                } else if (kategori === 'izin_pulang' || kategori === 'izin_keluar') {
+                    dateRange += dateEnd ? ` - ${dateEnd}` : ' - (belum kembali)';
+                }
+                lines.push(`   ${dateRange}`);
+                
+                // Detail line
+                let detail = item.judul || '-';
+                if (kategori === 'sakit') {
+                    detail += ` | ${item.status_kegiatan || 'Belum Diperiksa'}`;
+                } else if (kategori === 'paket') {
+                    detail += ` | ${item.status_paket || 'Belum Diterima'}`;
+                } else if (kategori === 'sambangan') {
+                    detail += ` | ${item.status_sambangan || '-'}`;
+                }
+                lines.push(`   ${detail}`);
             });
 
-            lines.push(`Total: ${items.length} data`);
-            lines.push('');
-            lines.push('Hormat kami,');
-            lines.push('Pengurus Pondok Pesantren');
-
             return lines.join('\n');
+        }
+
+        function getCategoryName(kategori) {
+            let names = {
+                'sakit': 'Sakit',
+                'izin_keluar': 'Izin Keluar',
+                'izin_pulang': 'Izin Pulang',
+                'sambangan': 'Sambangan',
+                'pelanggaran': 'Pelanggaran',
+                'paket': 'Paket',
+                'hafalan': 'Hafalan'
+            };
+            return names[kategori] || kategori;
+        }
+
+        function formatDateOnly(dateStr) {
+            if (!dateStr) return '-';
+            let d = new Date(dateStr);
+            return d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
 
         function getJudulLabel(kategori) {

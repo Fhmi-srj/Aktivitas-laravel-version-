@@ -20,7 +20,7 @@
         .table-santri {
             font-size: 0.72rem;
             white-space: nowrap;
-            min-width: 2000px;
+            min-width: 5500px;
             border-collapse: collapse;
         }
 
@@ -224,36 +224,42 @@
                         <th>NO</th>
                         <th><a href="?sort=nama_lengkap&dir={{ $sortCol === 'nama_lengkap' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
                                 class="sort-header {{ $sortCol === 'nama_lengkap' ? 'active ' . strtolower($sortDir) : '' }}">NAMA
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
+                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i class="fas fa-caret-down"></i></span></a></th>
                         <th><a href="?sort=kelas&dir={{ $sortCol === 'kelas' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
                                 class="sort-header {{ $sortCol === 'kelas' ? 'active ' . strtolower($sortDir) : '' }}">KELAS
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
-                        <th><a href="?sort=quran&dir={{ $sortCol === 'quran' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
-                                class="sort-header {{ $sortCol === 'quran' ? 'active ' . strtolower($sortDir) : '' }}">QURAN
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
-                        <th><a href="?sort=kategori&dir={{ $sortCol === 'kategori' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
-                                class="sort-header {{ $sortCol === 'kategori' ? 'active ' . strtolower($sortDir) : '' }}">KATEGORI
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
-                        <th><a href="?sort=nisn&dir={{ $sortCol === 'nisn' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
-                                class="sort-header {{ $sortCol === 'nisn' ? 'active ' . strtolower($sortDir) : '' }}">NISN
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
-                        <th><a href="?sort=lembaga_sekolah&dir={{ $sortCol === 'lembaga_sekolah' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
-                                class="sort-header {{ $sortCol === 'lembaga_sekolah' ? 'active ' . strtolower($sortDir) : '' }}">SEKOLAH
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
-                        <th><a href="?sort=status&dir={{ $sortCol === 'status' && $sortDir === 'ASC' ? 'DESC' : 'ASC' }}&search={{ $search }}&status={{ $filterStatus }}&kelas={{ $filterKelas }}"
-                                class="sort-header {{ $sortCol === 'status' ? 'active ' . strtolower($sortDir) : '' }}">STATUS
-                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i
-                                        class="fas fa-caret-down"></i></span></a></th>
+                                <span class="sort-icons"><i class="fas fa-caret-up"></i><i class="fas fa-caret-down"></i></span></a></th>
+                        <th>QURAN</th>
+                        <th>KATEGORI</th>
+                        <th>NISN</th>
+                        <th>NIK</th>
+                        <th>NO KK</th>
+                        <th>SEKOLAH</th>
+                        <th>STATUS</th>
                         <th>TTL</th>
                         <th>JK</th>
+                        <th>JML SAUDARA</th>
+                        <th>ALAMAT</th>
+                        <th>KECAMATAN</th>
+                        <th>KABUPATEN</th>
+                        <th>ASAL SEKOLAH</th>
+                        <th>STATUS MUKIM</th>
+                        <th>NAMA AYAH</th>
+                        <th>NIK AYAH</th>
+                        <th>TTL AYAH</th>
+                        <th>PEKERJAAN AYAH</th>
+                        <th>PENGHASILAN AYAH</th>
+                        <th>NAMA IBU</th>
+                        <th>NIK IBU</th>
+                        <th>TTL IBU</th>
+                        <th>PEKERJAAN IBU</th>
+                        <th>PENGHASILAN IBU</th>
                         <th>NO WA</th>
                         <th>RFID</th>
+                        <th>NO PIP</th>
+                        <th>SUMBER INFO</th>
+                        <th>PRESTASI</th>
+                        <th>TINGKAT</th>
+                        <th>JUARA</th>
                         <th>FOTO</th>
                         <th>DOKUMEN</th>
                         <th class="sticky-col-end">AKSI</th>
@@ -269,38 +275,56 @@
                             <td>{{ $s->quran ?? '-' }}</td>
                             <td>{{ $s->kategori ?? '-' }}</td>
                             <td><code style="color:#dc3545">{{ $s->nisn ?? '-' }}</code></td>
+                            <td>{{ $s->nik ?? '-' }}</td>
+                            <td>{{ $s->nomor_kk ?? '-' }}</td>
                             <td>{{ $s->lembaga_sekolah ?? '-' }}</td>
                             <td>
                                 @if($s->status === 'AKTIF')<span class="badge bg-success badge-doc">Aktif</span>
                                 @elseif($s->status === 'LULUS')<span class="badge bg-info badge-doc">Lulus</span>
                                 @else<span class="badge bg-secondary badge-doc">{{ $s->status ?? '-' }}</span>@endif
                             </td>
-                            <td>{{ $s->tempat_lahir ?? '-' }}{{ $s->tanggal_lahir ? ', ' . date('d/m/Y', strtotime($s->tanggal_lahir)) : '' }}
-                            </td>
+                            <td>{{ $s->tempat_lahir ?? '-' }}{{ $s->tanggal_lahir ? ', ' . date('d/m/Y', strtotime($s->tanggal_lahir)) : '' }}</td>
                             <td>{{ $s->jenis_kelamin == 'L' ? 'L' : ($s->jenis_kelamin == 'P' ? 'P' : '-') }}</td>
+                            <td>{{ $s->jumlah_saudara ?? '-' }}</td>
+                            <td style="max-width:200px; white-space:normal;">{{ $s->alamat ?? '-' }}</td>
+                            <td>{{ $s->kecamatan ?? '-' }}</td>
+                            <td>{{ $s->kabupaten ?? '-' }}</td>
+                            <td>{{ $s->asal_sekolah ?? '-' }}</td>
+                            <td>{{ $s->status_mukim ?? '-' }}</td>
+                            <td>{{ $s->nama_ayah ?? '-' }}</td>
+                            <td>{{ $s->nik_ayah ?? '-' }}</td>
+                            <td>{{ $s->tempat_lahir_ayah ?? '-' }}{{ $s->tanggal_lahir_ayah ? ', ' . date('d/m/Y', strtotime($s->tanggal_lahir_ayah)) : '' }}</td>
+                            <td>{{ $s->pekerjaan_ayah ?? '-' }}</td>
+                            <td>{{ $s->penghasilan_ayah ?? '-' }}</td>
+                            <td>{{ $s->nama_ibu ?? '-' }}</td>
+                            <td>{{ $s->nik_ibu ?? '-' }}</td>
+                            <td>{{ $s->tempat_lahir_ibu ?? '-' }}{{ $s->tanggal_lahir_ibu ? ', ' . date('d/m/Y', strtotime($s->tanggal_lahir_ibu)) : '' }}</td>
+                            <td>{{ $s->pekerjaan_ibu ?? '-' }}</td>
+                            <td>{{ $s->penghasilan_ibu ?? '-' }}</td>
                             <td>{{ $s->no_wa_wali ?? '-' }}</td>
                             <td>{!! $s->nomor_rfid ? '<span class="badge bg-success badge-doc">Ada</span>' : '-' !!}</td>
+                            <td>{{ $s->nomor_pip ?? '-' }}</td>
+                            <td>{{ $s->sumber_info ?? '-' }}</td>
+                            <td>{{ $s->prestasi ?? '-' }}</td>
+                            <td>{{ $s->tingkat_prestasi ?? '-' }}</td>
+                            <td>{{ $s->juara_prestasi ?? '-' }}</td>
                             <td>{!! $s->foto_santri ? '<span class="badge bg-success badge-doc">Ada</span>' : '-' !!}</td>
                             <td>
-                                @if($s->dokumen_kk || $s->dokumen_akte || $s->dokumen_ktp || $s->dokumen_ijazah)
+                                @if($s->dokumen_kk || $s->dokumen_akte || $s->dokumen_ktp || $s->dokumen_ijazah || $s->dokumen_sertifikat)
                                     <span class="badge bg-success badge-doc">Ada</span>
                                 @else - @endif
                             </td>
                             <td class="sticky-col-end">
                                 <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-success btn-sm" onclick="showQrModal({{ $s->id }}, '{{ addslashes($s->nama_lengkap) }}', '{{ $s->nisn ?? $s->id }}', '{{ $s->kelas ?? '-' }}')" title="Kartu QR"><i
-                                            class="fas fa-qrcode"></i></button>
-                                    <button class="btn btn-primary btn-sm" onclick="editSantri({{ $s->id }})" title="Edit"><i
-                                            class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"
-                                        onclick="hapusSantri({{ $s->id }}, '{{ addslashes($s->nama_lengkap) }}')"
-                                        title="Hapus"><i class="fas fa-trash"></i></button>
+                                    <button class="btn btn-success btn-sm" onclick="showQrModal({{ $s->id }}, '{{ addslashes($s->nama_lengkap) }}', '{{ $s->nisn ?? $s->id }}', '{{ $s->kelas ?? '-' }}')" title="Kartu QR"><i class="fas fa-qrcode"></i></button>
+                                    <button class="btn btn-primary btn-sm" onclick="editSantri({{ $s->id }})" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="hapusSantri({{ $s->id }}, '{{ addslashes($s->nama_lengkap) }}')" title="Hapus"><i class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="16" class="text-center py-4 text-muted">Tidak ada data</td>
+                            <td colspan="42" class="text-center py-4 text-muted">Tidak ada data</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -646,6 +670,7 @@
 
         // QR Modal
         function showQrModal(id, nama, nisn, kelas) {
+            const logoUrl = '{{ asset("logo-pondok.png") }}';
             const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(nisn);
             // Calculate font size based on name length
             let nameFontSize = 14;
@@ -665,7 +690,7 @@
                                 <div style="font-size: 9px; text-transform: uppercase; opacity: 0.9;">Pondok Pesantren Mambaul Huda</div>
                                 <div style="font-size: 11px; font-weight: 700; color: #fbbf24;">KARTU SANTRI</div>
                             </div>
-                            <img src="{{ asset('logo-pondok.png') }}" style="width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.2); padding: 3px;">
+                            <img src="${logoUrl}" style="width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.2); padding: 3px;">
                         </div>
                         <div style="display: flex; gap: 14px; align-items: flex-start;">
                             <div style="background: white; padding: 6px; border-radius: 8px;">
@@ -699,7 +724,7 @@
                     printWindow.document.write(`
                         <html><head><title>Kartu ${nama}</title>
                         <style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0;}</style>
-                        </head><body>${cardHtml}<script>setTimeout(()=>{window.print();window.close();},500);</script></body></html>
+                        </head><body>${cardHtml}<scr` + `ipt>setTimeout(()=>{window.print();window.close();},500);</scr` + `ipt></body></html>
                     `);
                     printWindow.document.close();
                 } else if (result.isDenied) {
@@ -708,7 +733,7 @@
                     if (typeof html2canvas !== 'undefined') {
                         html2canvas(card, { scale: 2, backgroundColor: null }).then(canvas => {
                             const link = document.createElement('a');
-                            link.download = 'kartu_' + nama.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+                            link.download = 'kartu_' + nama.replace(/\W+/g, '_') + '.png';
                             link.href = canvas.toDataURL('image/png');
                             link.click();
                         });
@@ -719,7 +744,7 @@
                         script.onload = () => {
                             html2canvas(card, { scale: 2, backgroundColor: null }).then(canvas => {
                                 const link = document.createElement('a');
-                                link.download = 'kartu_' + nama.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+                                link.download = 'kartu_' + nama.replace(/\W+/g, '_') + '.png';
                                 link.href = canvas.toDataURL('image/png');
                                 link.click();
                             });

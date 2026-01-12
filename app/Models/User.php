@@ -21,6 +21,8 @@ class User extends Authenticatable
         'role',
         'foto',
         'phone',
+        'biometric_enabled',
+        'biometric_reminder_dismissed',
     ];
 
     protected $hidden = [
