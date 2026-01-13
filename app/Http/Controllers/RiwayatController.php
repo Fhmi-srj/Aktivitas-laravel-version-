@@ -18,6 +18,7 @@ class RiwayatController extends Controller
         $attendances = DB::table('attendances as a')
             ->join('data_induk as di', 'a.user_id', '=', 'di.id')
             ->leftJoin('jadwal_absens as j', 'a.jadwal_id', '=', 'j.id')
+            ->whereNull('a.deleted_at')
             ->whereMonth('a.attendance_date', $month)
             ->whereYear('a.attendance_date', $year)
             ->orderByDesc('a.attendance_date')
@@ -37,6 +38,7 @@ class RiwayatController extends Controller
 
         // Stats for the month
         $stats = DB::table('attendances')
+            ->whereNull('deleted_at')
             ->whereMonth('attendance_date', $month)
             ->whereYear('attendance_date', $year)
             ->selectRaw("

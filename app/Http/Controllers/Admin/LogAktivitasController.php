@@ -22,7 +22,7 @@ class LogAktivitasController extends Controller
 
         $query = DB::table('activity_logs as a')
             ->leftJoin('users as u', 'a.user_id', '=', 'u.id')
-            ->select('a.*', 'u.role as user_role');
+            ->select('a.*', 'u.role as user_role', 'u.name as username');
 
         if ($filterRole) {
             $query->whereIn('a.user_id', function ($q) use ($filterRole) {

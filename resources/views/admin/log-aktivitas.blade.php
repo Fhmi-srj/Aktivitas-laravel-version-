@@ -90,6 +90,7 @@
                 <tr>
                     <th width="40"><input type="checkbox" id="select-all" class="form-check-input"></th>
                     <th>No</th>
+                    <th>User</th>
                     <th>Role</th>
                     <th>Device</th>
                     <th>Aktivitas</th>
@@ -103,6 +104,7 @@
                     <tr>
                         <td><input type="checkbox" class="form-check-input row-checkbox" value="{{ $log->id }}"></td>
                         <td>{{ $offset + $i + 1 }}</td>
+                        <td><div class="fw-bold text-primary">{{ $log->username ?? '-' }}</div></td>
                         <td><div class="fw-bold">{{ ucfirst($log->user_role ?? '-') }}</div></td>
                         <td><span class="badge device-badge">{{ $log->device_name ?? '-' }}</span></td>
                         <td><span class="badge badge-action badge-{{ $log->action }}">{{ $log->action }}</span></td>
@@ -115,7 +117,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="text-center py-4 text-muted">Tidak ada log aktivitas</td></tr>
+                    <tr><td colspan="9" class="text-center py-4 text-muted">Tidak ada log aktivitas</td></tr>
                 @endforelse
             </tbody>
         </table>

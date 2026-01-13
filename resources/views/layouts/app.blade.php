@@ -17,11 +17,24 @@
             --primary-color: #3b82f6;
             --primary-hover: #2563eb;
             --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #f1f5f9;
+            --border-hover: #e2e8f0;
+            --sidebar-bg: #ffffff;
+            --navbar-bg: #ffffff;
+            --input-bg: #ffffff;
+            --hover-bg: #f1f5f9;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --shadow-lg: rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
+            color: var(--text-primary);
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -37,8 +50,9 @@
         }
 
         .navbar-custom {
-            background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: var(--navbar-bg);
+            box-shadow: 0 1px 3px var(--shadow);
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
         .navbar-brand {
@@ -47,11 +61,12 @@
         }
 
         .stat-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 6px -1px var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .stat-icon {
@@ -67,26 +82,28 @@
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
         }
 
         .stat-label {
             font-size: 0.85rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
 
         .card-custom {
-            background: white;
+            background: var(--card-bg);
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 6px -1px var(--shadow);
+            border: 1px solid var(--border-color);
             overflow: hidden;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .card-header-custom {
             padding: 1.25rem;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
             font-weight: 600;
+            color: var(--text-primary);
         }
 
         .main-content {
@@ -226,10 +243,41 @@
             .table th,
             .table td {
                 padding: 0.5rem 0.4rem;
+                white-space: nowrap;
             }
 
             .table-responsive {
                 font-size: 0.8rem;
+                position: relative;
+                -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+            }
+
+            /* Scroll indicator shadow */
+            .table-responsive::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 30px;
+                background: linear-gradient(to right, transparent, var(--bg-color));
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .table-responsive.has-scroll::after {
+                opacity: 1;
+            }
+
+            /* Touch-friendly tap targets (min 44px) */
+            .btn-touch {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .btn {
@@ -515,8 +563,26 @@
             }
 
             .modal-dialog {
+                margin: 0;
+                max-width: 100%;
+                height: 100%;
+            }
+
+            .modal-content {
+                border-radius: 0;
+                height: 100%;
+                border: none;
+            }
+
+            .modal-dialog.modal-sm {
                 margin: 0.25rem;
                 max-width: calc(100% - 0.5rem);
+                height: auto;
+            }
+
+            .modal-dialog.modal-sm .modal-content {
+                border-radius: 12px;
+                height: auto;
             }
 
             .modal-header {
@@ -529,6 +595,7 @@
 
             .modal-body {
                 padding: 0.75rem !important;
+                overflow-y: auto;
             }
 
             .table .hide-xs {
@@ -606,6 +673,82 @@
 
         .table-sortable thead th.no-sort::after {
             display: none;
+        }
+
+        /* Skeleton Loader Styles */
+        @keyframes skeleton-loading {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: calc(200px + 100%) 0;
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--hover-bg) 50%, var(--border-color) 75%);
+            background-size: 200px 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 4px;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .skeleton-text.short {
+            width: 60%;
+        }
+
+        .skeleton-text.medium {
+            width: 80%;
+        }
+
+        .skeleton-title {
+            height: 1.5rem;
+            width: 40%;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .skeleton-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .skeleton-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .skeleton-button {
+            height: 38px;
+            width: 100px;
+            border-radius: 8px;
+        }
+
+        .skeleton-table-row {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .skeleton-table-cell {
+            height: 1rem;
+            flex: 1;
+            border-radius: 4px;
+        }
+
+        .skeleton-stat {
+            height: 2rem;
+            width: 60%;
+            border-radius: 4px;
         }
     </style>
     @stack('styles')

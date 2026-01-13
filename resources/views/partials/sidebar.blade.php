@@ -14,9 +14,9 @@
 <style>
     .sidebar {
         width: 250px;
-        background: white;
+        background: var(--sidebar-bg);
         height: 100vh;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        box-shadow: 2px 0 5px var(--shadow);
         position: fixed;
         left: 0;
         top: 0;
@@ -24,6 +24,7 @@
         z-index: 1000;
         display: flex;
         flex-direction: column;
+        transition: background-color 0.3s;
     }
 
     .sidebar-scroll {
@@ -47,14 +48,14 @@
         align-items: center;
         padding: 0.75rem 1rem;
         border-radius: 10px;
-        color: #64748b;
+        color: var(--text-secondary);
         text-decoration: none;
         transition: all 0.2s;
     }
 
     .sidebar-menu a:hover,
     .sidebar-menu a.active {
-        background: #f1f5f9;
+        background: var(--hover-bg);
         color: var(--primary-color);
     }
 
@@ -64,14 +65,14 @@
     }
 
     .sidebar-divider {
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--border-color);
         margin: 1rem 0;
     }
 
     .sidebar-header {
         font-size: 0.7rem;
         font-weight: 600;
-        color: #94a3b8;
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         padding: 0 1rem;
@@ -111,10 +112,12 @@
     /* Mobile offcanvas sidebar */
     .offcanvas-sidebar {
         width: 280px !important;
+        background-color: var(--sidebar-bg);
     }
 
     .offcanvas-sidebar .offcanvas-body {
         padding: 0;
+        background-color: var(--sidebar-bg);
     }
 
     .offcanvas-sidebar .user-badge-mobile {
@@ -148,7 +151,7 @@
         align-items: center;
         padding: 0.875rem 1rem;
         border-radius: 10px;
-        color: #64748b;
+        color: var(--text-secondary);
         text-decoration: none;
         transition: all 0.2s;
         font-size: 0.95rem;
@@ -156,7 +159,7 @@
 
     .offcanvas-sidebar .sidebar-menu-mobile a:hover,
     .offcanvas-sidebar .sidebar-menu-mobile a.active {
-        background: #f1f5f9;
+        background: var(--hover-bg);
         color: var(--primary-color);
     }
 
@@ -167,14 +170,14 @@
     }
 
     .offcanvas-sidebar .sidebar-divider-mobile {
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--border-color);
         margin: 0.75rem 0;
     }
 
     .offcanvas-sidebar .sidebar-header-mobile {
         font-size: 0.7rem;
         font-weight: 600;
-        color: #94a3b8;
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         padding: 0 1rem;
